@@ -1,1 +1,706 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Painel • Clara Letícia</title><style>body{margin:0;background:#fffaf0;color:#594d3b;font-family:Arial,sans-serif}.admin{max-width:1200px;margin:auto;padding:28px}.admin h1{color:#b47e13}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin:22px 0}.stats div{background:#fff;border:1px solid #eadcb8;border-radius:18px;padding:16px}.stats b{display:block;font-size:30px;color:#b47e13}input{padding:12px;width:100%;border:1px solid #dfd3b8;border-radius:10px}table{width:100%;border-collapse:collapse;background:#fff;margin:18px 0}th,td{padding:12px;border-bottom:1px solid #eee;text-align:left;font-size:12px}button{border:0;border-radius:10px;padding:9px 13px;background:#f3ead3;color:#6d541d;font-weight:600}@media(max-width:650px){.stats{grid-template-columns:1fr}.admin{padding:15px}}</style></head><body><main class="admin"><h1>🌼 Painel de Convidados</h1><p>Clara Letícia • 1 aninho • 18/10/2026 • 09:00 • Mansão Aliete Vieira, Farolândia</p><div class="stats"><div><b id="r">0</b>Respostas</div><div><b id="c">0</b>Confirmados</div><div><b id="a">0</b>Adultos</div><div><b id="k">0</b>Crianças</div></div><input id="busca" placeholder="Pesquisar convidado..."><table><thead><tr><th>Convidado</th><th>Status</th><th>Crianças</th><th>Acompanhante</th><th>WhatsApp</th><th>Ações</th></tr></thead><tbody id="lista"></tbody></table><button onclick="window.print()">Imprimir</button> <button id="csv">Exportar CSV</button><p><a href="index.html">Voltar ao convite</a></p></main><script>const key='clara_rsvp_v1';let d=JSON.parse(localStorage.getItem(key)||'[]');const esc=s=>String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));function render(){const q=(busca.value||'').toLowerCase(),x=d.filter(v=>v.nome.toLowerCase().includes(q));r.textContent=d.length;c.textContent=d.filter(v=>v.presenca==='sim').length;a.textContent=d.filter(v=>v.presenca==='sim').reduce((s,v)=>s+1+(v.acomp==='sim'?1:0),0);k.textContent=d.reduce((s,v)=>s+(v.qtd||0),0);lista.innerHTML=x.map(v=>'<tr><td>'+esc(v.nome)+'</td><td>'+(v.presenca==='sim'?'Confirmado':'Não irá')+'</td><td>'+(v.qtd||0)+'</td><td>'+esc(v.nomeAcomp||'-')+'</td><td>'+esc(v.whatsapp||'-')+'</td><td><button onclick="del('+v.id+')">Excluir</button></td></tr>').join('')}function del(id){if(confirm('Excluir esta resposta?')){d=d.filter(v=>v.id!==id);localStorage.setItem(key,JSON.stringify(d));render()}}busca.oninput=render;csv.onclick=()=>{let s='Nome;Status;Crianças;Acompanhante;WhatsApp;Email\n'+d.map(v=>[v.nome,v.presenca,v.qtd,v.nomeAcomp,v.whatsapp,v.email].map(x=>'"'+String(x||'').replaceAll('"','""')+'"').join(';')).join('\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+s],{type:'text/csv'}));a.download='convidados-clara-leticia.csv';a.click()};render();</script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
+
+<title>Painel • Clara Letícia</title>
+
+<style>
+
+body{
+  margin:0;
+  background:#fffaf0;
+  color:#594d3b;
+  font-family:Arial,sans-serif;
+}
+
+.admin{
+  max-width:1200px;
+  margin:auto;
+  padding:28px;
+}
+
+.admin h1{
+  color:#b47e13;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin:22px 0;
+}
+
+.stats div{
+  background:#fff;
+  border:1px solid #eadcb8;
+  border-radius:18px;
+  padding:16px;
+}
+
+.stats b{
+  display:block;
+  font-size:30px;
+  color:#b47e13;
+}
+
+input{
+  padding:12px;
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid #dfd3b8;
+  border-radius:10px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#fff;
+  margin:18px 0;
+}
+
+th,td{
+  padding:12px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+  font-size:12px;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:9px 13px;
+  background:#f3ead3;
+  color:#6d541d;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.status-confirmado{
+  color:#198754;
+  font-weight:bold;
+}
+
+.status-nao{
+  color:#b02a37;
+  font-weight:bold;
+}
+
+.mensagem{
+  padding:15px;
+  margin-top:15px;
+  border-radius:10px;
+  background:#fff;
+  border:1px solid #eadcb8;
+}
+
+@media(max-width:650px){
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .admin{
+    padding:15px;
+  }
+
+  table{
+    font-size:11px;
+  }
+
+  th,td{
+    padding:8px;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<main class="admin">
+
+<h1>🌼 Painel de Convidados</h1>
+
+<p>
+Clara Letícia • 1 aninho • 18/10/2026 • 09:00 •
+Mansão Aliete Vieira, Farolândia
+</p>
+
+<div class="stats">
+
+<div>
+<b id="r">0</b>
+Respostas
+</div>
+
+<div>
+<b id="c">0</b>
+Confirmados
+</div>
+
+<div>
+<b id="a">0</b>
+Adultos
+</div>
+
+<div>
+<b id="k">0</b>
+Crianças
+</div>
+
+</div>
+
+<input
+  id="busca"
+  placeholder="Pesquisar convidado..."
+>
+
+<div id="mensagem" class="mensagem">
+Carregando confirmações...
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Convidado</th>
+
+<th>Status</th>
+
+<th>Crianças</th>
+
+<th>Acompanhante</th>
+
+<th>WhatsApp</th>
+
+<th>Ações</th>
+
+</tr>
+
+</thead>
+
+<tbody id="lista"></tbody>
+
+</table>
+
+<button onclick="window.print()">
+Imprimir
+</button>
+
+<button id="csv">
+Exportar CSV
+</button>
+
+<p>
+<a href="index.html">
+Voltar ao convite
+</a>
+</p>
+
+</main>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURAÇÃO SUPABASE
+   ===================================================== */
+
+const SUPABASE_URL =
+  "https://hwkqkpjrqakzmylntnxl.supabase.co";
+
+
+/*
+   COLE AQUI A CHAVE PÚBLICA DO SUPABASE.
+
+   NÃO coloque a service_role key aqui.
+*/
+
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3a3FrcGpycWFrem15bG50bnhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4MzQzMTgsImV4cCI6MjEwMjQxMDMxOH0.tu2LHl4FhVBYNPE3RFyOjryJblUM0i6t4GHWG78p1HI";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
+
+
+/* =====================================================
+   VARIÁVEIS
+   ===================================================== */
+
+let dados = [];
+
+
+/* =====================================================
+   TRANSFORMAR BOOLEANO
+   ===================================================== */
+
+function booleano(valor){
+
+  if(valor === true)
+    return true;
+
+  if(valor === false)
+    return false;
+
+  if(typeof valor === "string"){
+
+    const texto =
+      valor.trim().toLowerCase();
+
+    return (
+      texto === "sim" ||
+      texto === "true" ||
+      texto === "1" ||
+      texto === "yes"
+    );
+
+  }
+
+  if(typeof valor === "number")
+    return valor === 1;
+
+  return false;
+
+}
+
+
+/* =====================================================
+   ESCAPAR HTML
+   ===================================================== */
+
+function esc(valor){
+
+  return String(valor ?? "")
+    .replace(/[&<>"']/g,function(m){
+
+      return {
+
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+
+      }[m];
+
+    });
+
+}
+
+
+/* =====================================================
+   CARREGAR CONFIRMAÇÕES
+   ===================================================== */
+
+async function carregarConfirmacoes(){
+
+  const mensagem =
+    document.getElementById("mensagem");
+
+  mensagem.textContent =
+    "Carregando confirmações...";
+
+
+  const resultado =
+    await supabaseClient
+      .from("confirmacoes")
+      .select("*")
+      .order("criado_em",{ascending:false});
+
+
+  if(resultado.error){
+
+    console.error(
+      "Erro Supabase:",
+      resultado.error
+    );
+
+    mensagem.textContent =
+      "Erro ao carregar confirmações: " +
+      resultado.error.message;
+
+    return;
+
+  }
+
+
+  dados =
+    resultado.data || [];
+
+
+  mensagem.textContent =
+    dados.length
+      ? dados.length + " confirmação(ões) encontrada(s)."
+      : "Nenhuma confirmação encontrada.";
+
+
+  render();
+
+}
+
+
+/* =====================================================
+   RENDERIZAR
+   ===================================================== */
+
+function render(){
+
+  const busca =
+    document
+      .getElementById("busca")
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  const filtrados =
+    dados.filter(function(v){
+
+      return String(v.nome || "")
+        .toLowerCase()
+        .includes(busca);
+
+    });
+
+
+  /* ===============================
+     RESPOSTAS
+     =============================== */
+
+  document.getElementById("r")
+    .textContent =
+      dados.length;
+
+
+  /* ===============================
+     CONFIRMADOS
+     =============================== */
+
+  const confirmados =
+    dados.filter(function(v){
+
+      return booleano(v.presenca);
+
+    });
+
+
+  document.getElementById("c")
+    .textContent =
+      confirmados.length;
+
+
+  /* ===============================
+     ADULTOS
+     =============================== */
+
+  let adultos = 0;
+
+  confirmados.forEach(function(v){
+
+    adultos += 1;
+
+    if(booleano(v.levar_acompanhante)){
+      adultos += 1;
+    }
+
+  });
+
+
+  document.getElementById("a")
+    .textContent =
+      adultos;
+
+
+  /* ===============================
+     CRIANÇAS
+     =============================== */
+
+  let criancas = 0;
+
+  dados.forEach(function(v){
+
+    if(booleano(v.presenca)){
+
+      criancas +=
+        Number(v.quantidade_criancas || 0);
+
+    }
+
+  });
+
+
+  document.getElementById("k")
+    .textContent =
+      criancas;
+
+
+  /* ===============================
+     TABELA
+     =============================== */
+
+  const lista =
+    document.getElementById("lista");
+
+
+  lista.innerHTML =
+    filtrados.map(function(v){
+
+      const confirmou =
+        booleano(v.presenca);
+
+
+      const criancas =
+        Number(
+          v.quantidade_criancas || 0
+        );
+
+
+      const acompanhante =
+        booleano(
+          v.levar_acompanhante
+        );
+
+
+      return `
+
+        <tr>
+
+          <td>
+            <strong>
+              ${esc(v.nome)}
+            </strong>
+          </td>
+
+
+          <td>
+
+            ${
+              confirmou
+
+              ? `<span class="status-confirmado">
+                   Confirmado
+                 </span>`
+
+              : `<span class="status-nao">
+                   Não irá
+                 </span>`
+            }
+
+          </td>
+
+
+          <td>
+            ${criancas}
+          </td>
+
+
+          <td>
+
+            ${
+              acompanhante
+
+              ? esc(
+                  v.nome_acompanhante || "Sim"
+                )
+
+              : "-"
+            }
+
+          </td>
+
+
+          <td>
+            ${esc(v.whatsapp || "-")}
+          </td>
+
+
+          <td>
+
+            <button
+              onclick="exibirDetalhes(${v.id})"
+            >
+              Ver
+            </button>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+
+}
+
+
+/* =====================================================
+   DETALHES
+   ===================================================== */
+
+function exibirDetalhes(id){
+
+  const v =
+    dados.find(function(item){
+
+      return item.id === id;
+
+    });
+
+
+  if(!v)
+    return;
+
+
+  alert(
+
+    "CONVIDADO\n\n" +
+
+    "Nome: " +
+    (v.nome || "-") +
+
+    "\nPresença: " +
+    (
+      booleano(v.presenca)
+        ? "Sim"
+        : "Não"
+    ) +
+
+    "\nCrianças: " +
+    (v.quantidade_criancas || 0) +
+
+    "\nAcompanhante: " +
+    (
+      booleano(v.levar_acompanhante)
+        ? (v.nome_acompanhante || "Sim")
+        : "Não"
+    ) +
+
+    "\nWhatsApp: " +
+    (v.whatsapp || "-") +
+
+    "\nE-mail: " +
+    (v.email || "-")
+
+  );
+
+}
+
+
+/* =====================================================
+   PESQUISA
+   ===================================================== */
+
+document
+  .getElementById("busca")
+  .addEventListener(
+    "input",
+    render
+  );
+
+
+/* =====================================================
+   EXPORTAR CSV
+   ===================================================== */
+
+document
+  .getElementById("csv")
+  .onclick = function(){
+
+    let csv =
+      "Nome;Status;Crianças;Acompanhante;WhatsApp;Email\n";
+
+
+    csv += dados.map(function(v){
+
+      const status =
+        booleano(v.presenca)
+          ? "Confirmado"
+          : "Não irá";
+
+
+      const acompanhante =
+        booleano(v.levar_acompanhante)
+          ? (v.nome_acompanhante || "Sim")
+          : "Não";
+
+
+      return [
+
+        v.nome || "",
+
+        status,
+
+        v.quantidade_criancas || 0,
+
+        acompanhante,
+
+        v.whatsapp || "",
+
+        v.email || ""
+
+      ].map(function(x){
+
+        return '"' +
+          String(x)
+            .replaceAll('"','""') +
+          '"';
+
+      }).join(";");
+
+    }).join("\n");
+
+
+    const link =
+      document.createElement("a");
+
+
+    link.href =
+      URL.createObjectURL(
+        new Blob(
+          ["\ufeff" + csv],
+          {type:"text/csv"}
+        )
+      );
+
+
+    link.download =
+      "convidados-clara-leticia.csv";
+
+
+    link.click();
+
+};
+
+
+/* =====================================================
+   INICIAR
+   ===================================================== */
+
+carregarConfirmacoes();
+
+</script>
+
+</body>
+</html>
