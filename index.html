@@ -35,7 +35,7 @@
   <button class="music-stop" id="musicStop">⏹️ Parar</button>
 </div><audio id="music" src="musica-clara-leticia.mp3" loop preload="auto"></audio><section class="rsvp"><h2>Confirme sua presença</h2><p>Responda para que possamos preparar tudo com carinho.</p><form id="form"><label>Nome completo *<input id="nome" required placeholder="Digite seu nome"></label><label>Você irá ao aniversário? *<select id="presenca" required><option value="">Selecione</option><option value="sim">Sim, estarei presente</option><option value="nao">Não poderei comparecer</option></select></label><div id="extras" class="hidden"><label>Você levará alguma criança? *<select id="crianca"><option value="">Selecione</option><option value="nao">Não</option><option value="sim">Sim</option></select></label><label id="qbox" class="hidden">Quantas crianças?<input id="qtd" type="number" min="1" max="20" value="1"></label><label>Você levará acompanhante adulto? *<select id="acomp"><option value="">Selecione</option><option value="nao">Não</option><option value="sim">Sim</option></select></label><label id="abox" class="hidden">Nome completo do acompanhante<input id="nomeAcomp" placeholder="Nome do acompanhante"></label><label>WhatsApp *<input id="whatsapp" required placeholder="(79) 99999-9999"></label><label>E-mail<input id="email" type="email" placeholder="seuemail@email.com"></label></div><button class="primary" type="submit">🌼 Confirmar presença</button></form><div id="msg" class="msg hidden"></div></section><footer>Com carinho, Pais da Clara Letícia 🌼</footer></main><script>
 const $ = id => document.getElementById(id);
-
+  
 const FUNCTION_URL =
   "https://hwkqkpjrqakzmylntnxl.supabase.co/functions/v1/enviar-confirmacao";
 
