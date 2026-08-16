@@ -1,76 +1,74 @@
 <!doctype html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="utf-8">
-
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1"
->
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Painel • Clara Letícia</title>
 
 <style>
-
 body{
   margin:0;
   background:#fffaf0;
   color:#594d3b;
-  font-family:Arial,sans-serif;
+  font-family:Arial,sans-serif
 }
 
 .admin{
   max-width:1200px;
   margin:auto;
-  padding:28px;
+  padding:28px
 }
 
-.admin h1{
+h1{
   color:#b47e13;
+  margin-bottom:8px
 }
 
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:15px;
-  margin:22px 0;
+  margin:22px 0
 }
 
 .stats div{
   background:#fff;
   border:1px solid #eadcb8;
   border-radius:18px;
-  padding:16px;
+  padding:16px
 }
 
 .stats b{
   display:block;
   font-size:30px;
-  color:#b47e13;
+  color:#b47e13
 }
 
-input{
+input,select{
   padding:12px;
   width:100%;
   box-sizing:border-box;
   border:1px solid #dfd3b8;
   border-radius:10px;
+  background:#fff
 }
 
 table{
   width:100%;
   border-collapse:collapse;
   background:#fff;
-  margin:18px 0;
+  margin:18px 0
 }
 
 th,td{
   padding:12px;
   border-bottom:1px solid #eee;
   text-align:left;
-  font-size:12px;
+  font-size:12px
+}
+
+th{
+  background:#fffdf8
 }
 
 button{
@@ -81,48 +79,144 @@ button{
   color:#6d541d;
   font-weight:600;
   cursor:pointer;
+  margin:2px
 }
 
-.status-confirmado{
-  color:#198754;
-  font-weight:bold;
+button:hover{
+  background:#eadbb8
 }
 
-.status-nao{
-  color:#b02a37;
-  font-weight:bold;
+.btn-ver{
+  background:#e8f1df;
+  color:#42652c
+}
+
+.btn-editar{
+  background:#e8edf7;
+  color:#38527a
+}
+
+.btn-excluir{
+  background:#f8e1dd;
+  color:#9a3328
 }
 
 .mensagem{
-  padding:15px;
-  margin-top:15px;
-  border-radius:10px;
   background:#fff;
   border:1px solid #eadcb8;
+  border-radius:12px;
+  padding:14px;
+  margin:12px 0;
+  display:none
 }
 
-@media(max-width:650px){
+.mensagem.erro{
+  color:#a33;
+  border-color:#e5b8b8;
+  background:#fff5f5
+}
+
+.mensagem.sucesso{
+  color:#39713b;
+  border-color:#b9d8b9;
+  background:#f5fff5
+}
+
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  z-index:9999;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal-box{
+  background:#fffaf0;
+  width:100%;
+  max-width:600px;
+  max-height:90vh;
+  overflow:auto;
+  border-radius:18px;
+  padding:25px;
+  box-sizing:border-box;
+  box-shadow:0 10px 40px rgba(0,0,0,.25)
+}
+
+.modal-box h2{
+  color:#b47e13;
+  margin-top:0
+}
+
+.campo{
+  margin-bottom:14px
+}
+
+.campo label{
+  display:block;
+  font-weight:bold;
+  font-size:13px;
+  margin-bottom:6px
+}
+
+.linha{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px
+}
+
+.detalhes{
+  background:#fff;
+  border:1px solid #eadcb8;
+  border-radius:12px;
+  padding:16px
+}
+
+.detalhes p{
+  margin:10px 0;
+  border-bottom:1px solid #eee;
+  padding-bottom:8px
+}
+
+.fechar{
+  float:right;
+  background:#eee;
+  color:#555
+}
+
+.salvar{
+  background:#b47e13;
+  color:white
+}
+
+@media(max-width:700px){
 
   .stats{
-    grid-template-columns:1fr;
+    grid-template-columns:1fr 1fr
   }
 
   .admin{
-    padding:15px;
+    padding:15px
+  }
+
+  .linha{
+    grid-template-columns:1fr
   }
 
   table{
-    font-size:11px;
+    font-size:11px
   }
 
   th,td{
-    padding:8px;
+    padding:8px
   }
 
 }
-
 </style>
-
 </head>
 
 <body>
@@ -161,32 +255,23 @@ Crianças
 </div>
 
 <input
-  id="busca"
-  placeholder="Pesquisar convidado..."
+id="busca"
+placeholder="Pesquisar convidado..."
 >
 
-<div id="mensagem" class="mensagem">
-Carregando confirmações...
-</div>
+<div id="mensagem" class="mensagem"></div>
 
 <table>
 
 <thead>
 
 <tr>
-
 <th>Convidado</th>
-
 <th>Status</th>
-
 <th>Crianças</th>
-
 <th>Acompanhante</th>
-
 <th>WhatsApp</th>
-
 <th>Ações</th>
-
 </tr>
 
 </thead>
@@ -195,214 +280,321 @@ Carregando confirmações...
 
 </table>
 
-<button onclick="window.print()">
-Imprimir
-</button>
+<button onclick="window.print()">Imprimir</button>
 
 <button id="csv">
 Exportar CSV
 </button>
 
 <p>
-<a href="index.html">
-Voltar ao convite
-</a>
+<a href="index.html">Voltar ao convite</a>
 </p>
 
 </main>
 
 
-<!-- SUPABASE -->
+<!-- ========================= -->
+<!-- MODAL VER -->
+<!-- ========================= -->
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<div id="modalVer" class="modal">
+
+<div class="modal-box">
+
+<button class="fechar" onclick="fecharModal('modalVer')">
+Fechar
+</button>
+
+<h2>👁️ Dados da confirmação</h2>
+
+<div id="dadosVer" class="detalhes"></div>
+
+</div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- MODAL EDITAR -->
+<!-- ========================= -->
+
+<div id="modalEditar" class="modal">
+
+<div class="modal-box">
+
+<button class="fechar" onclick="fecharModal('modalEditar')">
+Fechar
+</button>
+
+<h2>✏️ Editar confirmação</h2>
+
+<input type="hidden" id="editId">
+
+<div class="campo">
+
+<label>Nome</label>
+
+<input id="editNome">
+
+</div>
+
+
+<div class="campo">
+
+<label>Presença</label>
+
+<select id="editPresenca">
+
+<option value="true">Sim</option>
+<option value="false">Não</option>
+
+</select>
+
+</div>
+
+
+<div class="linha">
+
+<div class="campo">
+
+<label>Vai levar criança?</label>
+
+<select id="editLevarCrianca">
+
+<option value="false">Não</option>
+<option value="true">Sim</option>
+
+</select>
+
+</div>
+
+
+<div class="campo">
+
+<label>Quantidade de crianças</label>
+
+<input
+type="number"
+min="0"
+id="editQuantidade"
+>
+
+</div>
+
+</div>
+
+
+<div class="campo">
+
+<label>Vai levar acompanhante?</label>
+
+<select id="editLevarAcompanhante">
+
+<option value="false">Não</option>
+<option value="true">Sim</option>
+
+</select>
+
+</div>
+
+
+<div class="campo">
+
+<label>Nome do acompanhante</label>
+
+<input id="editNomeAcompanhante">
+
+</div>
+
+
+<div class="campo">
+
+<label>WhatsApp</label>
+
+<input id="editWhatsapp">
+
+</div>
+
+
+<div class="campo">
+
+<label>E-mail</label>
+
+<input id="editEmail">
+
+</div>
+
+
+<button class="salvar" onclick="salvarEdicao()">
+💾 Salvar alterações
+</button>
+
+<button onclick="fecharModal('modalEditar')">
+Cancelar
+</button>
+
+</div>
+
+</div>
 
 
 <script>
 
 /* =====================================================
    CONFIGURAÇÃO SUPABASE
-   ===================================================== */
+===================================================== */
 
 const SUPABASE_URL =
-  "https://hwkqkpjrqakzmylntnxl.supabase.co";
-
-
-/*
-   COLE AQUI A CHAVE PÚBLICA DO SUPABASE.
-
-   NÃO coloque a service_role key aqui.
-*/
+"https://hwkqkpjrqakzmylntnxl.supabase.co";
 
 const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3a3FrcGpycWFrem15bG50bnhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4MzQzMTgsImV4cCI6MjEwMjQxMDMxOH0.tu2LHl4FhVBYNPE3RFyOjryJblUM0i6t4GHWG78p1HI";
-
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh3a3FrcGpycWFrem15bG50bnhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY4MzQzMTgsImV4cCI6MjEwMjQxMDMxOH0.tu2LHl4FhVBYNPE3RFyOjryJblUM0i6t4GHWG78p1HI";
 
 
 /* =====================================================
-   VARIÁVEIS
-   ===================================================== */
+   ELEMENTOS
+===================================================== */
+
+const lista =
+document.getElementById("lista");
+
+const busca =
+document.getElementById("busca");
+
+const mensagem =
+document.getElementById("mensagem");
 
 let dados = [];
 
 
 /* =====================================================
-   TRANSFORMAR BOOLEANO
-   ===================================================== */
+   MENSAGEM
+===================================================== */
 
-function booleano(valor){
+function mostrarMensagem(texto,tipo=""){
 
-  if(valor === true)
-    return true;
+  mensagem.textContent=texto;
 
-  if(valor === false)
-    return false;
+  mensagem.className=
+    "mensagem " + tipo;
 
-  if(typeof valor === "string"){
-
-    const texto =
-      valor.trim().toLowerCase();
-
-    return (
-      texto === "sim" ||
-      texto === "true" ||
-      texto === "1" ||
-      texto === "yes"
-    );
-
-  }
-
-  if(typeof valor === "number")
-    return valor === 1;
-
-  return false;
+  mensagem.style.display="block";
 
 }
 
 
 /* =====================================================
-   ESCAPAR HTML
-   ===================================================== */
+   FECHAR MENSAGEM
+===================================================== */
 
-function esc(valor){
+function esconderMensagem(){
 
-  return String(valor ?? "")
-    .replace(/[&<>"']/g,function(m){
-
-      return {
-
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#039;"
-
-      }[m];
-
-    });
+  mensagem.style.display="none";
 
 }
 
 
 /* =====================================================
    CARREGAR CONFIRMAÇÕES
-   ===================================================== */
+===================================================== */
 
-async function carregarConfirmacoes(){
+async function carregar(){
 
-  const mensagem =
-    document.getElementById("mensagem");
+  esconderMensagem();
 
-  mensagem.textContent =
-    "Carregando confirmações...";
+  try{
 
+    const resposta = await fetch(
+      SUPABASE_URL +
+      "/rest/v1/confirmacoes?select=*&order=criado_em.desc",
+      {
+        method:"GET",
 
-  const resultado =
-    await supabaseClient
-      .from("confirmacoes")
-      .select("*")
-      .order("criado_em",{ascending:false});
-
-
-  if(resultado.error){
-
-    console.error(
-      "Erro Supabase:",
-      resultado.error
+        headers:{
+          "apikey":SUPABASE_ANON_KEY,
+          "Authorization":
+            "Bearer " + SUPABASE_ANON_KEY
+        }
+      }
     );
 
-    mensagem.textContent =
-      "Erro ao carregar confirmações: " +
-      resultado.error.message;
 
-    return;
+    if(!resposta.ok){
+
+      const erro =
+        await resposta.text();
+
+      throw new Error(erro);
+
+    }
+
+
+    dados =
+      await resposta.json();
+
+
+    render();
+
+
+  }catch(erro){
+
+    console.error(erro);
+
+    mostrarMensagem(
+      "Erro ao carregar confirmações: " +
+      (erro.message || erro),
+      "erro"
+    );
 
   }
-
-
-  dados =
-    resultado.data || [];
-
-
-  mensagem.textContent =
-    dados.length
-      ? dados.length + " confirmação(ões) encontrada(s)."
-      : "Nenhuma confirmação encontrada.";
-
-
-  render();
 
 }
 
 
 /* =====================================================
-   RENDERIZAR
-   ===================================================== */
+   CONVERTER BOOLEAN
+===================================================== */
+
+function booleano(valor){
+
+  return valor === true ||
+         valor === "true" ||
+         valor === "sim" ||
+         valor === 1;
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
 
 function render(){
 
-  const busca =
-    document
-      .getElementById("busca")
-      .value
-      .toLowerCase()
-      .trim();
+  const q =
+    (busca.value || "")
+    .toLowerCase()
+    .trim();
 
 
   const filtrados =
-    dados.filter(function(v){
-
-      return String(v.nome || "")
-        .toLowerCase()
-        .includes(busca);
-
-    });
+    dados.filter(v =>
+      String(v.nome || "")
+      .toLowerCase()
+      .includes(q)
+    );
 
 
-  /* ===============================
-     RESPOSTAS
-     =============================== */
+  /* CONTADORES */
 
   document.getElementById("r")
-    .textContent =
-      dados.length;
+    .textContent = dados.length;
 
-
-  /* ===============================
-     CONFIRMADOS
-     =============================== */
 
   const confirmados =
-    dados.filter(function(v){
-
-      return booleano(v.presenca);
-
-    });
+    dados.filter(v =>
+      booleano(v.presenca)
+    );
 
 
   document.getElementById("c")
@@ -410,295 +602,646 @@ function render(){
       confirmados.length;
 
 
-  /* ===============================
-     ADULTOS
-     =============================== */
-
   let adultos = 0;
 
-  confirmados.forEach(function(v){
+  confirmados.forEach(v => {
 
-    adultos += 1;
+    adultos++;
 
     if(booleano(v.levar_acompanhante)){
-      adultos += 1;
+      adultos++;
     }
 
   });
 
 
   document.getElementById("a")
-    .textContent =
-      adultos;
+    .textContent = adultos;
 
 
-  /* ===============================
-     CRIANÇAS
-     =============================== */
-
-  let criancas = 0;
-
-  dados.forEach(function(v){
-
-    if(booleano(v.presenca)){
-
-      criancas +=
-        Number(v.quantidade_criancas || 0);
-
-    }
-
-  });
+  const criancas =
+    dados.reduce(
+      (total,v) =>
+        total +
+        Number(v.quantidade_criancas || 0),
+      0
+    );
 
 
   document.getElementById("k")
-    .textContent =
-      criancas;
+    .textContent = criancas;
 
 
-  /* ===============================
-     TABELA
-     =============================== */
+  /* TABELA */
 
-  const lista =
-    document.getElementById("lista");
+  if(filtrados.length === 0){
+
+    lista.innerHTML =
+      `<tr>
+        <td colspan="6">
+          Nenhuma confirmação encontrada.
+        </td>
+      </tr>`;
+
+    return;
+
+  }
 
 
   lista.innerHTML =
-    filtrados.map(function(v){
+    filtrados.map(v => {
 
-      const confirmou =
+      const confirmado =
         booleano(v.presenca);
 
 
-      const criancas =
-        Number(
-          v.quantidade_criancas || 0
-        );
-
-
-      const acompanhante =
-        booleano(
-          v.levar_acompanhante
-        );
-
-
       return `
+      <tr>
 
-        <tr>
+        <td>
+          <strong>
+            ${esc(v.nome)}
+          </strong>
+        </td>
 
-          <td>
-            <strong>
-              ${esc(v.nome)}
-            </strong>
-          </td>
+        <td style="
+          color:${confirmado ? "#16803c" : "#a33"};
+          font-weight:bold
+        ">
+          ${confirmado ? "Confirmado" : "Não irá"}
+        </td>
 
+        <td>
+          ${Number(v.quantidade_criancas || 0)}
+        </td>
 
-          <td>
+        <td>
+          ${esc(v.nome_acompanhante || "-")}
+        </td>
 
-            ${
-              confirmou
+        <td>
+          ${esc(v.whatsapp || "-")}
+        </td>
 
-              ? `<span class="status-confirmado">
-                   Confirmado
-                 </span>`
+        <td>
 
-              : `<span class="status-nao">
-                   Não irá
-                 </span>`
-            }
+          <button
+            class="btn-ver"
+            onclick="ver(${v.id})">
+            👁️ Ver
+          </button>
 
-          </td>
+          <button
+            class="btn-editar"
+            onclick="editar(${v.id})">
+            ✏️ Editar
+          </button>
 
+          <button
+            class="btn-excluir"
+            onclick="excluir(${v.id})">
+            🗑️ Excluir
+          </button>
 
-          <td>
-            ${criancas}
-          </td>
+        </td>
 
-
-          <td>
-
-            ${
-              acompanhante
-
-              ? esc(
-                  v.nome_acompanhante || "Sim"
-                )
-
-              : "-"
-            }
-
-          </td>
-
-
-          <td>
-            ${esc(v.whatsapp || "-")}
-          </td>
-
-
-          <td>
-
-            <button
-              onclick="exibirDetalhes(${v.id})"
-            >
-              Ver
-            </button>
-
-          </td>
-
-        </tr>
-
+      </tr>
       `;
 
     }).join("");
 
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function esc(valor){
+
+  return String(valor ?? "")
+    .replace(/[&<>"']/g,m => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    }[m]));
 
 }
 
 
 /* =====================================================
-   DETALHES
-   ===================================================== */
+   VER
+===================================================== */
 
-function exibirDetalhes(id){
+function ver(id){
 
   const v =
-    dados.find(function(item){
-
-      return item.id === id;
-
-    });
+    dados.find(x =>
+      Number(x.id) === Number(id)
+    );
 
 
-  if(!v)
-    return;
+  if(!v) return;
 
 
-  alert(
+  const confirmado =
+    booleano(v.presenca);
 
-    "CONVIDADO\n\n" +
 
-    "Nome: " +
-    (v.nome || "-") +
+  const levarCrianca =
+    booleano(v.levar_crianca);
 
-    "\nPresença: " +
-    (
-      booleano(v.presenca)
-        ? "Sim"
-        : "Não"
-    ) +
 
-    "\nCrianças: " +
-    (v.quantidade_criancas || 0) +
+  const levarAcompanhante =
+    booleano(v.levar_acompanhante);
 
-    "\nAcompanhante: " +
-    (
-      booleano(v.levar_acompanhante)
-        ? (v.nome_acompanhante || "Sim")
-        : "Não"
-    ) +
 
-    "\nWhatsApp: " +
-    (v.whatsapp || "-") +
+  const data =
+    v.criado_em
+      ? new Date(v.criado_em)
+          .toLocaleString("pt-BR")
+      : "-";
 
-    "\nE-mail: " +
-    (v.email || "-")
 
-  );
+  document.getElementById("dadosVer").innerHTML = `
+
+    <p>
+      <strong>Nome:</strong><br>
+      ${esc(v.nome)}
+    </p>
+
+    <p>
+      <strong>Presença:</strong><br>
+      ${confirmado ? "✅ Confirmado" : "❌ Não irá"}
+    </p>
+
+    <p>
+      <strong>Vai levar criança:</strong><br>
+      ${levarCrianca ? "Sim" : "Não"}
+    </p>
+
+    <p>
+      <strong>Quantidade de crianças:</strong><br>
+      ${Number(v.quantidade_criancas || 0)}
+    </p>
+
+    <p>
+      <strong>Vai levar acompanhante:</strong><br>
+      ${levarAcompanhante ? "Sim" : "Não"}
+    </p>
+
+    <p>
+      <strong>Nome do acompanhante:</strong><br>
+      ${esc(v.nome_acompanhante || "-")}
+    </p>
+
+    <p>
+      <strong>WhatsApp:</strong><br>
+      ${esc(v.whatsapp || "-")}
+    </p>
+
+    <p>
+      <strong>E-mail:</strong><br>
+      ${esc(v.email || "-")}
+    </p>
+
+    <p>
+      <strong>Data da confirmação:</strong><br>
+      ${data}
+    </p>
+
+  `;
+
+
+  document.getElementById("modalVer")
+    .style.display="flex";
 
 }
+
+
+/* =====================================================
+   EDITAR
+===================================================== */
+
+function editar(id){
+
+  const v =
+    dados.find(x =>
+      Number(x.id) === Number(id)
+    );
+
+
+  if(!v) return;
+
+
+  document.getElementById("editId")
+    .value = v.id;
+
+
+  document.getElementById("editNome")
+    .value = v.nome || "";
+
+
+  document.getElementById("editPresenca")
+    .value =
+      booleano(v.presenca)
+        ? "true"
+        : "false";
+
+
+  document.getElementById("editLevarCrianca")
+    .value =
+      booleano(v.levar_crianca)
+        ? "true"
+        : "false";
+
+
+  document.getElementById("editQuantidade")
+    .value =
+      Number(v.quantidade_criancas || 0);
+
+
+  document.getElementById("editLevarAcompanhante")
+    .value =
+      booleano(v.levar_acompanhante)
+        ? "true"
+        : "false";
+
+
+  document.getElementById("editNomeAcompanhante")
+    .value =
+      v.nome_acompanhante || "";
+
+
+  document.getElementById("editWhatsapp")
+    .value =
+      v.whatsapp || "";
+
+
+  document.getElementById("editEmail")
+    .value =
+      v.email || "";
+
+
+  document.getElementById("modalEditar")
+    .style.display="flex";
+
+}
+
+
+/* =====================================================
+   SALVAR EDIÇÃO
+===================================================== */
+
+async function salvarEdicao(){
+
+  const id =
+    document.getElementById("editId").value;
+
+
+  const nome =
+    document.getElementById("editNome")
+      .value.trim();
+
+
+  if(!nome){
+
+    alert("Informe o nome do convidado.");
+
+    return;
+
+  }
+
+
+  const dadosAtualizados = {
+
+    nome: nome,
+
+    presenca:
+      document.getElementById(
+        "editPresenca"
+      ).value === "true",
+
+    levar_crianca:
+      document.getElementById(
+        "editLevarCrianca"
+      ).value === "true",
+
+    quantidade_criancas:
+      Number(
+        document.getElementById(
+          "editQuantidade"
+        ).value || 0
+      ),
+
+    levar_acompanhante:
+      document.getElementById(
+        "editLevarAcompanhante"
+      ).value === "true",
+
+    nome_acompanhante:
+      document.getElementById(
+        "editNomeAcompanhante"
+      ).value.trim() || null,
+
+    whatsapp:
+      document.getElementById(
+        "editWhatsapp"
+      ).value.trim() || null,
+
+    email:
+      document.getElementById(
+        "editEmail"
+      ).value.trim() || null
+
+  };
+
+
+  try{
+
+    const resposta =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/confirmacoes?id=eq." +
+        encodeURIComponent(id),
+        {
+
+          method:"PATCH",
+
+          headers:{
+            "apikey":SUPABASE_ANON_KEY,
+
+            "Authorization":
+              "Bearer " + SUPABASE_ANON_KEY,
+
+            "Content-Type":
+              "application/json",
+
+            "Prefer":
+              "return=representation"
+          },
+
+          body:
+            JSON.stringify(
+              dadosAtualizados
+            )
+
+        }
+      );
+
+
+    if(!resposta.ok){
+
+      const erro =
+        await resposta.text();
+
+      throw new Error(erro);
+
+    }
+
+
+    fecharModal("modalEditar");
+
+    mostrarMensagem(
+      "Confirmação alterada com sucesso!",
+      "sucesso"
+    );
+
+
+    await carregar();
+
+
+  }catch(erro){
+
+    console.error(erro);
+
+    alert(
+      "Erro ao editar:\n\n" +
+      erro.message
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   EXCLUIR
+===================================================== */
+
+async function excluir(id){
+
+  const v =
+    dados.find(x =>
+      Number(x.id) === Number(id)
+    );
+
+
+  if(!v) return;
+
+
+  const confirmar =
+    confirm(
+      "⚠️ EXCLUIR CONFIRMAÇÃO\n\n" +
+
+      "Convidado: " +
+      v.nome +
+      "\n\n" +
+
+      "Essa confirmação será apagada do Supabase.\n\n" +
+
+      "Deseja realmente excluir?"
+    );
+
+
+  if(!confirmar) return;
+
+
+  try{
+
+    const resposta =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/confirmacoes?id=eq." +
+        encodeURIComponent(id),
+        {
+
+          method:"DELETE",
+
+          headers:{
+            "apikey":SUPABASE_ANON_KEY,
+
+            "Authorization":
+              "Bearer " + SUPABASE_ANON_KEY,
+
+            "Prefer":
+              "return=representation"
+          }
+
+        }
+      );
+
+
+    if(!resposta.ok){
+
+      const erro =
+        await resposta.text();
+
+      throw new Error(erro);
+
+    }
+
+
+    mostrarMensagem(
+      "Confirmação de " +
+      v.nome +
+      " excluída com sucesso!",
+      "sucesso"
+    );
+
+
+    await carregar();
+
+
+  }catch(erro){
+
+    console.error(erro);
+
+    alert(
+      "Erro ao excluir:\n\n" +
+      erro.message
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   FECHAR MODAL
+===================================================== */
+
+function fecharModal(id){
+
+  document.getElementById(id)
+    .style.display="none";
+
+}
+
+
+/* =====================================================
+   FECHAR CLICANDO FORA
+===================================================== */
+
+window.addEventListener(
+  "click",
+  function(event){
+
+    if(event.target.classList.contains("modal")){
+
+      event.target.style.display="none";
+
+    }
+
+  }
+);
 
 
 /* =====================================================
    PESQUISA
-   ===================================================== */
+===================================================== */
 
-document
-  .getElementById("busca")
-  .addEventListener(
-    "input",
-    render
-  );
+busca.addEventListener(
+  "input",
+  render
+);
 
 
 /* =====================================================
    EXPORTAR CSV
-   ===================================================== */
+===================================================== */
 
-document
-  .getElementById("csv")
-  .onclick = function(){
+document.getElementById("csv")
+.addEventListener("click",()=>{
 
-    let csv =
-      "Nome;Status;Crianças;Acompanhante;WhatsApp;Email\n";
-
-
-    csv += dados.map(function(v){
-
-      const status =
-        booleano(v.presenca)
-          ? "Confirmado"
-          : "Não irá";
+  const cabecalho =
+    "Nome;Presença;Crianças;Acompanhante;Nome acompanhante;WhatsApp;Email\n";
 
 
-      const acompanhante =
-        booleano(v.levar_acompanhante)
-          ? (v.nome_acompanhante || "Sim")
-          : "Não";
+  const linhas =
+    dados.map(v => [
+
+      v.nome,
+
+      booleano(v.presenca)
+        ? "Sim"
+        : "Não",
+
+      Number(
+        v.quantidade_criancas || 0
+      ),
+
+      booleano(v.levar_acompanhante)
+        ? "Sim"
+        : "Não",
+
+      v.nome_acompanhante || "",
+
+      v.whatsapp || "",
+
+      v.email || ""
+
+    ]
+    .map(x =>
+      '"' +
+      String(x)
+        .replaceAll('"','""') +
+      '"'
+    )
+    .join(";")
+    )
+    .join("\n");
 
 
-      return [
-
-        v.nome || "",
-
-        status,
-
-        v.quantidade_criancas || 0,
-
-        acompanhante,
-
-        v.whatsapp || "",
-
-        v.email || ""
-
-      ].map(function(x){
-
-        return '"' +
-          String(x)
-            .replaceAll('"','""') +
-          '"';
-
-      }).join(";");
-
-    }).join("\n");
+  const blob =
+    new Blob(
+      [
+        "\ufeff" +
+        cabecalho +
+        linhas
+      ],
+      {
+        type:"text/csv;charset=utf-8;"
+      }
+    );
 
 
-    const link =
-      document.createElement("a");
+  const url =
+    URL.createObjectURL(blob);
 
 
-    link.href =
-      URL.createObjectURL(
-        new Blob(
-          ["\ufeff" + csv],
-          {type:"text/csv"}
-        )
-      );
+  const a =
+    document.createElement("a");
 
+  a.href=url;
 
-    link.download =
-      "convidados-clara-leticia.csv";
+  a.download=
+    "convidados-clara-leticia.csv";
 
+  a.click();
 
-    link.click();
+  URL.revokeObjectURL(url);
 
-};
+});
 
 
 /* =====================================================
    INICIAR
-   ===================================================== */
+===================================================== */
 
-carregarConfirmacoes();
+carregar();
 
 </script>
 
