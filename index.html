@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Clara Letícia • 1 Aninho</title><style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@400;500;600;700&display=swap');
+
+.music-controls{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin:10px 0 5px;
+}
+
+.music-btn,
+.music-stop{
+  border-radius:999px;
+  padding:12px 20px;
+  font-weight:700;
+  cursor:pointer;
+  font-family:inherit;
+}
+
+.music-btn{
+  background:#f2dda4;
+  color:#6d541d;
+  border:1px solid #e5c96e;
+}
+
+.music-stop{
+  background:#fff;
+  color:#8b6b25;
+  border:1px solid #e5c96e;
+}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#fff,#fffaf0 65%,#f6efdc);color:#594d3b;font-family:Montserrat,Arial,sans-serif}.invite{max-width:760px;margin:auto;padding:22px 18px 45px;text-align:center}.tema{width:100%;display:block;border-radius:26px;box-shadow:0 18px 45px #80652a18}.intro{padding:12px 15px 0}.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:11px;color:#a47b20;font-weight:700;margin:5px 0}h1,h2{font-family:'DM Serif Display',serif;font-weight:400;color:#b47e13}.intro h1{font-size:46px;margin:6px 0 0}.intro h2{font-size:29px;margin:0 0 8px}.message{font-size:14px;margin:0 0 22px}.event-info{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 auto 18px}.event-item{background:#fff;border:1px solid #eadcb8;border-radius:18px;padding:15px 10px;min-height:112px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 24px #80652a12}.icon{font-size:22px;margin-bottom:6px}.event-item strong{font-size:14px;color:#b47e13;line-height:1.25}.event-item small{font-size:10px;color:#766b5b;margin-top:5px}.music-btn{background:#f2dda4;color:#6d541d;border:1px solid #e5c96e;border-radius:999px;padding:12px 22px;font-weight:700;cursor:pointer}.rsvp{margin:28px auto 0;max-width:600px;background:#fffdf9;border:1px solid #eadcb8;border-radius:25px;padding:25px;box-shadow:0 15px 40px #80652a12;text-align:left}.rsvp h2{text-align:center;margin:0;font-size:31px}.rsvp p{text-align:center;font-size:12px;margin:5px 0 20px;color:#776b58}form{display:grid;gap:13px}label{font-size:12px;font-weight:700}input,select{display:block;width:100%;margin-top:6px;padding:13px 14px;border-radius:12px;border:1px solid #dfd3b8;background:#fff;font:inherit;color:#594d3b}.hidden{display:none}.primary{width:100%;border:0;border-radius:999px;padding:13px;background:linear-gradient(135deg,#d4a12b,#eed073);color:#fff;font-weight:700;cursor:pointer}.msg{margin-top:14px;padding:14px;border-radius:13px;background:#f1f6e9;color:#596d45;text-align:center;font-size:13px}footer{margin-top:30px;font-family:'DM Serif Display',serif;color:#a47c20}@media(max-width:650px){.event-info{grid-template-columns:1fr}.intro h1{font-size:38px}}
+</style></head><body><main class="invite"><img class="tema" src="tema-clara-leticia.png" alt="Clara Letícia - 1 aninho"><div class="intro"><p class="eyebrow">Você é nosso convidado especial</p><h1>Clara Letícia</h1><h2>1 aninho</h2><p class="message">Vamos celebrar juntos esse momento tão especial! 🌼</p></div><section class="event-info"><div class="event-item"><span class="icon">📅</span><strong>18/10/2026</strong><small>Data</small></div><div class="event-item"><span class="icon">🕘</span><strong>09:00</strong><small>Horário</small></div><div class="event-item"><span class="icon">📍</span><strong>Mansão Aliete Vieira</strong><small>Farolândia</small></div></section><div class="music-controls">
+  <button class="music-btn" id="musicBtn">⏸️ Pausar música</button>
+  <button class="music-stop" id="musicStop">⏹️ Parar</button>
+</div><audio id="music" src="musica-clara-leticia.mp3" loop preload="auto"></audio><section class="rsvp"><h2>Confirme sua presença</h2><p>Responda para que possamos preparar tudo com carinho.</p><form id="form"><label>Nome completo *<input id="nome" required placeholder="Digite seu nome"></label><label>Você irá ao aniversário? *<select id="presenca" required><option value="">Selecione</option><option value="sim">Sim, estarei presente</option><option value="nao">Não poderei comparecer</option></select></label><div id="extras" class="hidden"><label>Você levará alguma criança? *<select id="crianca"><option value="">Selecione</option><option value="nao">Não</option><option value="sim">Sim</option></select></label><label id="qbox" class="hidden">Quantas crianças?<input id="qtd" type="number" min="1" max="20" value="1"></label><label>Você levará acompanhante adulto? *<select id="acomp"><option value="">Selecione</option><option value="nao">Não</option><option value="sim">Sim</option></select></label><label id="abox" class="hidden">Nome completo do acompanhante<input id="nomeAcomp" placeholder="Nome do acompanhante"></label><label>WhatsApp *<input id="whatsapp" required placeholder="(79) 99999-9999"></label><label>E-mail<input id="email" type="email" placeholder="seuemail@email.com"></label></div><button class="primary" type="submit">🌼 Confirmar presença</button></form><div id="msg" class="msg hidden"></div></section><footer>Com carinho, Pais da Clara Letícia 🌼</footer></main><script>
+const $ = id => document.getElementById(id);
+
+const FUNCTION_URL =
+  "https://hwkqkjprjqakzmylnxtxl.supabase.co/functions/v1/enviar-confirmacao";
+
+const key = "clara_rsvp_v1";
+
+// Mostrar/ocultar campos conforme presença
+$("presenca").onchange = () => {
+  $("extras").classList.toggle("hidden", $("presenca").value !== "sim");
+};
+
+// Mostrar quantidade de crianças
+$("crianca").onchange = () => {
+  $("qbox").classList.toggle("hidden", $("crianca").value !== "sim");
+};
+
+// Mostrar nome do acompanhante
+$("acomp").onchange = () => {
+  $("abox").classList.toggle("hidden", $("acomp").value !== "sim");
+};
+
+
+// ENVIO DA CONFIRMAÇÃO
+$("form").onsubmit = async (e) => {
+  e.preventDefault();
+
+  const btn = $("form").querySelector("button[type='submit']");
+  const msg = $("msg");
+
+  const sim = $("presenca").value === "sim";
+
+  const dados = {
+    nome: $("nome").value.trim(),
+
+    presenca: sim,
+
+    levar_crianca:
+      sim && $("crianca").value === "sim",
+
+    quantidade_criancas:
+      sim && $("crianca").value === "sim"
+        ? Number($("qtd").value || 0)
+        : 0,
+
+    levar_acompanhante:
+      sim && $("acomp").value === "sim",
+
+    nome_acompanhante:
+      sim && $("acomp").value === "sim"
+        ? $("nomeAcomp").value.trim()
+        : "",
+
+    whatsapp:
+      $("whatsapp").value.trim(),
+
+    email:
+      $("email").value.trim()
+  };
+
+  // Validação
+  if (!dados.nome) {
+    alert("Digite seu nome.");
+    return;
+  }
+
+  if (!$("presenca").value) {
+    alert("Informe se você irá ao aniversário.");
+    return;
+  }
+
+  if (sim && !$("crianca").value) {
+    alert("Informe se levará alguma criança.");
+    return;
+  }
+
+  if (sim && !$("acomp").value) {
+    alert("Informe se levará acompanhante.");
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Enviando confirmação...";
+
+  msg.classList.remove("hidden");
+  msg.innerHTML = "⏳ Enviando sua confirmação...";
+
+  try {
+
+    const resposta = await fetch(FUNCTION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(dados)
+    });
+
+    const resultado = await resposta.json();
+
+    if (!resposta.ok || !resultado.success) {
+      throw new Error(
+        resultado.detalhes ||
+        resultado.error ||
+        "Não foi possível enviar a confirmação."
+      );
+    }
+
+    // Salvar localmente também
+    const registro = {
+      id: Date.now(),
+      ...dados,
+      criado_em: new Date().toISOString()
+    };
+
+    const lista =
+      JSON.parse(localStorage.getItem(key) || "[]");
+
+    lista.push(registro);
+
+    localStorage.setItem(
+      key,
+      JSON.stringify(lista)
+    );
+
+    // Mensagem para o convidado
+    if (sim) {
+
+      msg.innerHTML =
+        "<b>🌼 Presença confirmada!</b><br>" +
+        "Obrigado por confirmar sua presença no 1º aninho da Clara Letícia! 💛";
+
+    } else {
+
+      msg.innerHTML =
+        "<b>💛 Obrigado pela resposta.</b><br>" +
+        "Sentiremos sua falta!";
+
+    }
+
+    // Limpar formulário
+    $("form").reset();
+
+    $("extras").classList.add("hidden");
+    $("qbox").classList.add("hidden");
+    $("abox").classList.add("hidden");
+
+  } catch (erro) {
+
+    console.error(erro);
+
+    msg.innerHTML =
+      "<b>❌ Não foi possível enviar a confirmação.</b><br>" +
+      "Tente novamente em alguns instantes.";
+
+    alert(
+      "Erro ao enviar confirmação.\n\n" +
+      erro.message
+    );
+
+  } finally {
+
+    btn.disabled = false;
+    btn.textContent = "🌼 Confirmar presença";
+
+  }
+};
+
+
+// MÚSICA
+const music = $("music");
+const btnMusic = $("musicBtn");
+const btnStop = $("musicStop");
+
+let musicaIniciada = false;
+
+// Inicia a música no primeiro toque em qualquer parte do convite,
+// exceto nos próprios controles da música.
+async function iniciarMusica() {
+  if (musicaIniciada || !music.paused) return;
+
+  try {
+    await music.play();
+    musicaIniciada = true;
+    btnMusic.textContent = "⏸️ Pausar música";
+  } catch (erro) {
+    console.log("Navegador bloqueou a música:", erro);
+  }
+}
+
+document.addEventListener("pointerdown", (e) => {
+  if (e.target.closest(".music-controls")) return;
+  iniciarMusica();
+});
+
+// Pausar / continuar
+btnMusic.onclick = async (e) => {
+  e.stopPropagation();
+
+  try {
+    if (music.paused) {
+      await music.play();
+      musicaIniciada = true;
+      btnMusic.textContent = "⏸️ Pausar música";
+    } else {
+      music.pause();
+      btnMusic.textContent = "▶️ Continuar música";
+    }
+  } catch (erro) {
+    console.log("Não foi possível tocar a música:", erro);
+  }
+};
+
+// Parar
+btnStop.onclick = (e) => {
+  e.stopPropagation();
+  music.pause();
+  music.currentTime = 0;
+  musicaIniciada = false;
+  btnMusic.textContent = "▶️ Continuar música";
+};
+</script></body></html>

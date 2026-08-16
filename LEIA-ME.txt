@@ -1,0 +1,10 @@
+JARDIM DE MARGARIDAS - CLARA LETÍCIA v2
+
+Data: 18/10/2026
+Horário: 09:00
+Local: Mansão Aliete Vieira, Farolândia.
+Música: arquivo musica-clara-leticia.mp3 enviado pelo cliente.
+
+Esta versão já incorpora a data, horário, local e música.
+O protótipo ainda salva as respostas no navegador. A próxima etapa é conectar Supabase,
+login por e-mail/senha e envio real de confirmações por e-mail e WhatsApp.
